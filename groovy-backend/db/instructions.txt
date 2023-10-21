@@ -1,0 +1,6 @@
+This database is being hosted on my DO droplet.
+
+The data was obtained from kaggle top 5000 albums
+
+User: groovyuser
+DB Name: groovy
