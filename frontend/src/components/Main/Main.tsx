@@ -11,9 +11,9 @@ export const Main = ({ children }: Props) => {
       px={'1em'}
       py={'1.5em'}
       alignSelf={'center'}
-      borderRadius={'10px'}
+      borderRadius={'100px'}
       alignItems={'flex-start'}
-      w={['100%', '100%', '48em']}
+      w={['100%', '100%', '80em']}
     >
       {children}
     </VStack>

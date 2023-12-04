@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     saveToken(token);
   }
 
+  
   const signOut = () => {
     setToken(undefined);
     removeToken();
