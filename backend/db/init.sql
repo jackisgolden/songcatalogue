@@ -1,0 +1,71 @@
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Artists (
+    ArtistID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Genre VARCHAR(255)
+);
+
+CREATE TABLE Albums (
+    AlbumID INT AUTO_INCREMENT PRIMARY KEY,
+    AlbumName VARCHAR(255) NOT NULL,
+    ArtistID INT NOT NULL,
+    FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID)
+);
+
+CREATE TABLE Songs (
+    SongID INT AUTO_INCREMENT PRIMARY KEY,
+    SongName VARCHAR(255) NOT NULL,
+    FileName VARCHAR(255) NOT NULL,
+    AlbumID INT NOT NULL,
+    FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID)
+);
+
+CREATE TABLE Playlists (
+    PlaylistID INT AUTO_INCREMENT PRIMARY KEY,
+    PlaylistName VARCHAR(255) NOT NULL,
+    Image VARCHAR(255),
+    UserID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE Likes (
+    UserID INT NOT NULL,
+    SongID INT NOT NULL,
+    PRIMARY KEY (UserID, SongID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (SongID) REFERENCES Songs(SongID)
+);
+
+CREATE TABLE Followers (
+    UserID INT NOT NULL,
+    ArtistID INT NOT NULL,
+    PRIMARY KEY (UserID, ArtistID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID)
+);
+
+CREATE TABLE Playlist_Songs (
+    PlaylistID INT NOT NULL,
+    SongID INT NOT NULL,
+    PRIMARY KEY (PlaylistID, SongID),
+    FOREIGN KEY (PlaylistID) REFERENCES Playlists(PlaylistID),
+    FOREIGN KEY (SongID) REFERENCES Songs(SongID)
+);
+
+CREATE TABLE Reviews (
+    ReviewID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    SongID INT NOT NULL,
+    Rating INT NOT NULL,
+    Text TEXT,
+    ReviewDate DATE NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (SongID) REFERENCES Songs(SongID)
+);
+

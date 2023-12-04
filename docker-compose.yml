@@ -21,13 +21,10 @@ services:
   database:
     image: mariadb:latest
     container_name: mariadb-container
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: groovy
-      MYSQL_USER: jg
-      MYSQL_PASSWORD: pass
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
-      - ./db-data:/var/lib/mysql
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 

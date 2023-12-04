@@ -27,6 +27,13 @@ Supports:
  - `
 
 ## Usage
+
+Build and start docker images
 ```sh
 sudo docker-compose up --build
+```
+
+Tear down images
+```sh
+sudo docker-compose down
 ```
