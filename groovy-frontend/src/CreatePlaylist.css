@@ -31,9 +31,11 @@
   
   .playlist-create-form input {
     width: 100%;
-    padding: 8px;
+    padding: 8px 16px 8px 8px; /* top, right, bottom, left */
     margin-bottom: 10px;
+    /* Other styles */
   }
+  
   
   .playlist-create-form button {
     width: 100%;
