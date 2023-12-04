@@ -1,15 +1,16 @@
 import express from 'express';
-import mariadb, { Pool, Connection } from 'mariadb';
+import mariadb, { Connection, Pool } from 'mariadb';
+import { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } from './config';
 
 const app = express();
 const port = 3000;
 
 const pool: Pool = mariadb.createPool({
-  host: '127.0.0.1',
-  port: 3306,
-  user: 'groovyuser',
-  password: 'password',
-  database: 'groovy',
+  host: MYSQL_HOST,
+  port: parseInt(MYSQL_PORT || '3306'), // Convert to number
+  user: MYSQL_USER,
+  password: MYSQL_PASSWORD,
+  database: MYSQL_DATABASE,
 });
 
 const handleDatabaseRequest = async (req: express.Request, res: express.Response, query: string) => {

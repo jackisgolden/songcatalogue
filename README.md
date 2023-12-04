@@ -26,13 +26,7 @@ Supports:
  - `db`: contains database code
  - `
 
-# songteacher
-
-A webapp for practicing music - stores practice data + creates practice plan
-
-Users can view song data like Key, chord progressions, and similar songs / techniques.
-
-This app will extract key data from MIDI files and then store them.
-
-A user can practice songs using a certain scale (major, minor, other modes) or arpeggios.
-
+## Usage
+```sh
+sudo docker-compose up --build
+```

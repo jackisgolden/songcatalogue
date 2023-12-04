@@ -14,14 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mariadb_1 = __importDefault(require("mariadb"));
+const config_1 = require("./config");
 const app = (0, express_1.default)();
 const port = 3000;
 const pool = mariadb_1.default.createPool({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'groovyuser',
-    password: 'password',
-    database: 'groovy',
+    host: config_1.MYSQL_HOST,
+    port: parseInt(config_1.MYSQL_PORT || '3306'), // Convert to number
+    user: config_1.MYSQL_USER,
+    password: config_1.MYSQL_PASSWORD,
+    database: config_1.MYSQL_DATABASE,
 });
 const handleDatabaseRequest = (req, res, query) => __awaiter(void 0, void 0, void 0, function* () {
     let conn; // Specify the type for conn
