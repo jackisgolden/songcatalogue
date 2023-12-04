@@ -12,6 +12,10 @@ const CreatePlaylist: React.FC = () => {
     <div>
       <input type="text" value={name} onChange={e => setName(e.target.value)} />
       <button onClick={handleSubmit}>Create Playlist</button>
+      <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      <button onClick={handleSubmit}>Delete Playlist</button>
+      <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      <button onClick={handleSubmit}>Edit Playlist</button>
     </div>
   );
 };

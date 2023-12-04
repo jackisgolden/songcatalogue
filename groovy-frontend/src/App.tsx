@@ -1,22 +1,24 @@
-import React from 'react';
-import Search from './Search';
-import CreateReview from './CreateReview';
-import CreatePlaylist from './CreatePlaylist';
+import { Center } from '@chakra-ui/react'
+import { Routes } from './routes/Routes'
+import { Providers } from './Providers'
+import ErrorBoundaryRetry from './ErrorBoundary'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <h1>Search</h1>
-      <Search />
-
-      <h1>Create Review</h1>
-      <CreateReview />
-
-      <h1>Create Playlist</h1>
-      <CreatePlaylist />
-    </div>
-  );
+    <Center h={'100vh'}>
+      <Routes />
+    </Center>
+  )
 }
 
-export default App;
+function AppRoot () {
+  return (
+    <Providers>
+      <ErrorBoundaryRetry>
+        <App />
+      </ErrorBoundaryRetry>
+    </Providers>
+  )
+}
 
+export default AppRoot
