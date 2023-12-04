@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { VStack, Input, Box, Text, Button } from '@chakra-ui/react'; // Import Button from Chakra UI
+import { useState } from 'react';
+import { VStack, Input, Box, Text } from '@chakra-ui/react';
 import { NewReview } from '../../pages/NewReview/NewReview'
 import { MakePlaylist } from '../../components/MakePlaylist/MakePlaylist'
-import { SearchBar } from '../../components/SearchBar/SearchBar'
+//import { SearchBar } from '../../components/SearchBar/SearchBar'
 
 const mockPlaylists = [
   'Chill Vibes',

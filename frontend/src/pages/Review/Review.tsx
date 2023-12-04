@@ -1,12 +1,6 @@
-import { Box, Text, Avatar, Flex, Link, Grid, GridItem, Button, Divider } from '@chakra-ui/react'
-import { startTransition } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Box } from '@chakra-ui/react'
 
 export const Review = () => {
-  const navigate = useNavigate()
-  const { id } = useParams()
-
-
  
   return (
     <Box

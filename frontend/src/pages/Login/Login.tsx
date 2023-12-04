@@ -1,6 +1,5 @@
 import {
   Box,
-  Flex,
   Link,
   Text,
   Stack,
@@ -8,8 +7,7 @@ import {
   Button,
   useToast,
   FormLabel,
-  FormControl,
-  FormErrorMessage
+  FormControl
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -52,6 +50,7 @@ export const Login = () => {
         signIn(data.token);
         navigate('/');
       } else {
+        setErrors({ email: 'Invalid email', password: 'Invalid password' });
         toast({
           title: 'Error',
           description: data.message,

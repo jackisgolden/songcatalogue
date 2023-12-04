@@ -1,29 +1,9 @@
 import {
-    Tab,
-    Text,
-    Box,
-    Flex,
-    Grid,
-    Tabs,
-    Image,
-    HStack,
-    TabList,
-    GridItem,
-    TabPanel,
-    TabPanels,
-    useColorMode,
-    VStack,
-    Button,
-    Divider
+    Box
   } from '@chakra-ui/react'
-  import { useParams } from 'react-router-dom'
  
   
   export const ArtistDetails = () => {
-    const { colorMode } = useColorMode()
-    const { movieId } = useParams()
- 
-  
     return (
       <Box
         minH={'100vh'}

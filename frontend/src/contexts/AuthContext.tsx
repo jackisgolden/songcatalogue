@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return;
   }
 
-  const id = everyTenMinutes(async () => {
+  everyTenMinutes(async () => {
     try {
       const response = await axios.post('/api/refreshToken', {
         refreshToken: refreshToken.value

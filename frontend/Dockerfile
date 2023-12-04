@@ -20,5 +20,5 @@ RUN npm run build
 EXPOSE 80
 
 # Start a web server to serve the built React app
-CMD ["npx", "serve", "-s", "build", "-l", "80"]
+CMD ["npx", "serve", "-s", "dist", "-l", "80"]
 
