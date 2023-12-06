@@ -66,9 +66,9 @@ import {
       }
   
       setIsSignUpLoading(true);
-  
+      console.log("about to fetch");
       try {
-        const response = await fetch('http://backend:3000/signup', {
+        const response = await fetch('/api/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -95,6 +95,7 @@ import {
                 duration: 2500,
               });
           // Handle registration error messages here.
+          console.log("failre", data.message);
           setErrors({ email: data.message }); // Assuming the API returns an error message for email validation.
         }
       } catch (error) {

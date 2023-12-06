@@ -33,6 +33,7 @@ export const Login = () => {
   }, [token, navigate]);
 
   const onSubmit = async () => {
+    console.error('hello');
     setIsLoginLoading(true);
 
     try {
