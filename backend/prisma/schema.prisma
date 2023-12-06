@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      =  env("DATABASE_URL")
+}
+
+
+model User {
+  UserID       Int           @id @default(autoincrement())
+  Name         String
+  Email        String        @unique
+  Password     String
+  Playlists    Playlist[]
+  Likes        Like[]
+  Followers    Follower[]
+  Reviews      Review[]
+}
+
+model Artist {
+  ArtistID     Int           @id @default(autoincrement())
+  Name         String
+  Genre        String?
+  Albums       Album[]
+  Followers    Follower[]
+}
+
+model Album {
+  AlbumID      Int           @id @default(autoincrement())
+  AlbumName    String
+  ArtistID     Int
+  Songs        Song[]
+  Artist       Artist        @relation(fields: [ArtistID], references: [ArtistID])
+}
+
+model Song {
+  SongID       Int           @id @default(autoincrement())
+  SongName     String
+  FileName     String
+  AlbumID      Int
+  Album        Album         @relation(fields: [AlbumID], references: [AlbumID])
+  Likes        Like[]
+  PlaylistSong Playlist_Song[]
+  Reviews      Review[]
+}
+
+model Playlist {
+  PlaylistID   Int           @id @default(autoincrement())
+  PlaylistName String
+  Image        String?
+  UserID       Int
+  User         User          @relation(fields: [UserID], references: [UserID])
+  PlaylistSong Playlist_Song[]
+}
+
+model Like {
+  UserID       Int
+  SongID       Int
+  User         User          @relation(fields: [UserID], references: [UserID])
+  Song         Song          @relation(fields: [SongID], references: [SongID])
+  @@id([UserID, SongID])
+}
+
+model Follower {
+  UserID       Int
+  ArtistID     Int
+  User         User          @relation(fields: [UserID], references: [UserID])
+  Artist       Artist        @relation(fields: [ArtistID], references: [ArtistID])
+  @@id([UserID, ArtistID])
+}
+
+model Playlist_Song {
+  PlaylistID   Int
+  SongID       Int
+  Playlist     Playlist      @relation(fields: [PlaylistID], references: [PlaylistID])
+  Song         Song          @relation(fields: [SongID], references: [SongID])
+  @@id([PlaylistID, SongID])
+}
+
+model Review {
+  ReviewID     Int           @id @default(autoincrement())
+  UserID       Int
+  SongID       Int
+  Rating       Int
+  Text         String?
+  ReviewDate   DateTime
+  User         User          @relation(fields: [UserID], references: [UserID])
+  Song         Song          @relation(fields: [SongID], references: [SongID])
+}

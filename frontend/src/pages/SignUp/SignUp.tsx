@@ -68,9 +68,7 @@ import {
       setIsSignUpLoading(true);
   
       try {
-        // You should make a POST request to your API endpoint for user registration here.
-        // Replace '/api/signup' with the actual API endpoint.
-        const response = await fetch('/api/signup', {
+        const response = await fetch('http://backend:3000/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +100,7 @@ import {
       } catch (error) {
         toast({
           title: 'Error',
-          description: 'An internal error occurred',
+          description: 'Failure Request',
           status: 'error',
           duration: 2500,
         });

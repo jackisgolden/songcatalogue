@@ -1,50 +1,52 @@
-import express from 'express';
-import mariadb, { Connection, Pool } from 'mariadb';
-import { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } from './config';
+import express, { Request, Response } from "express";
+import mariadb, { Connection, Pool } from "mariadb";
+import session from 'express-session';
+import bcrypt from "bcrypt";
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
+app.use(express.json());
 const port = 3000;
+const prisma = new PrismaClient();
 
-const pool: Pool = mariadb.createPool({
-  host: MYSQL_HOST,
-  port: parseInt(MYSQL_PORT || '3306'), // Convert to number
-  user: MYSQL_USER,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
-});
-
-const handleDatabaseRequest = async (req: express.Request, res: express.Response, query: string) => {
-  let conn: Connection | undefined; // Specify the type for conn
+app.post(`/signup`, async (req, res) => {
+  const { email, password } = req.body;
 
   try {
-    conn = await pool.getConnection();
-    const rows = await conn.query(query);
-    res.json(rows);
-  } catch (error: any) { // Specify the type for error (any or a more specific error type)
+    console.log('POSTED!')
+    const result = await prisma.user.create({
+      data: {
+        Name: email, // You can use the email as the Name if needed
+        Email: email,
+        Password: password,
+        // Add any other default values or associations here
+      },
+    });
+
+    res.json(result);
+  } catch (error) {
     console.error(error);
-    res.status(500).send(`An error occurred while fetching data: ${error.message}`);
-  } finally {
-    if (conn) {
-      conn.end(); // Release the database connection when done.
-    }
+    res.status(500).json({ error: 'An error occurred while creating the user.' });
   }
-};
-
-app.get('/songs', async (req, res) => {
-  const query = 'SELECT * FROM Songs';
-  handleDatabaseRequest(req, res, query);
-});
-
-app.get('/artists', async (req, res) => {
-  const query = 'SELECT * FROM Artists';
-  handleDatabaseRequest(req, res, query);
-});
-
-app.get('/albums', async (req, res) => {
-  const query = 'SELECT * FROM Albums';
-  handleDatabaseRequest(req, res, query);
 });
 
 app.listen(port, () => {
-  console.log(`Server is running at ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
+
+// OLD CODE
+// import {
+//   MYSQL_HOST,
+//   MYSQL_PORT,
+//   MYSQL_USER,
+//   MYSQL_PASSWORD,
+//   MYSQL_DATABASE,
+// } from "./config";
+
+// const pool: Pool = mariadb.createPool({
+//   host: MYSQL_HOST,
+//   port: parseInt(MYSQL_PORT || "3306"),
+//   user: MYSQL_USER,
+//   password: MYSQL_PASSWORD,
+//   database: MYSQL_DATABASE,
+// });
