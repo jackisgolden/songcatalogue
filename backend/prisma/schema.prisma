@@ -1,91 +1,72 @@
+// schema.prisma
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "mysql"
-  url      =  env("DATABASE_URL")
-}
-
-
 model User {
-  UserID       Int           @id @default(autoincrement())
-  Name         String
-  Email        String        @unique
-  Password     String
-  Playlists    Playlist[]
-  Likes        Like[]
-  Followers    Follower[]
-  Reviews      Review[]
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  email     String     @unique
+  firstName String
+  lastName  String
+  password  String
+  playlists Playlist[]
+  posts     Post[]
+  profile   Profile?
 }
 
-model Artist {
-  ArtistID     Int           @id @default(autoincrement())
-  Name         String
-  Genre        String?
-  Albums       Album[]
-  Followers    Follower[]
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
 
-model Album {
-  AlbumID      Int           @id @default(autoincrement())
-  AlbumName    String
-  ArtistID     Int
-  Songs        Song[]
-  Artist       Artist        @relation(fields: [ArtistID], references: [ArtistID])
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
 }
 
 model Song {
-  SongID       Int           @id @default(autoincrement())
-  SongName     String
-  FileName     String
-  AlbumID      Int
-  Album        Album         @relation(fields: [AlbumID], references: [AlbumID])
-  Likes        Like[]
-  PlaylistSong Playlist_Song[]
-  Reviews      Review[]
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  name      String
+  artist    Artist     @relation(fields: [artistId], references: [id])
+  artistId  Int
+  playlists Playlist[]
+  duration  Int
+  url       String
+}
+
+model Artist {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  songs     Song[]
+  name      String   @unique
 }
 
 model Playlist {
-  PlaylistID   Int           @id @default(autoincrement())
-  PlaylistName String
-  Image        String?
-  UserID       Int
-  User         User          @relation(fields: [UserID], references: [UserID])
-  PlaylistSong Playlist_Song[]
-}
-
-model Like {
-  UserID       Int
-  SongID       Int
-  User         User          @relation(fields: [UserID], references: [UserID])
-  Song         Song          @relation(fields: [SongID], references: [SongID])
-  @@id([UserID, SongID])
-}
-
-model Follower {
-  UserID       Int
-  ArtistID     Int
-  User         User          @relation(fields: [UserID], references: [UserID])
-  Artist       Artist        @relation(fields: [ArtistID], references: [ArtistID])
-  @@id([UserID, ArtistID])
-}
-
-model Playlist_Song {
-  PlaylistID   Int
-  SongID       Int
-  Playlist     Playlist      @relation(fields: [PlaylistID], references: [PlaylistID])
-  Song         Song          @relation(fields: [SongID], references: [SongID])
-  @@id([PlaylistID, SongID])
-}
-
-model Review {
-  ReviewID     Int           @id @default(autoincrement())
-  UserID       Int
-  SongID       Int
-  Rating       Int
-  Text         String?
-  ReviewDate   DateTime
-  User         User          @relation(fields: [UserID], references: [UserID])
-  Song         Song          @relation(fields: [SongID], references: [SongID])
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  songs     Song[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 }

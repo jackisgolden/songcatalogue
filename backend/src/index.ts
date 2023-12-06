@@ -3,31 +3,24 @@ import mariadb, { Connection, Pool } from "mariadb";
 import session from 'express-session';
 import bcrypt from "bcrypt";
 import { PrismaClient } from '@prisma/client';
-import cors from 'cors';
+
 
 const app = express();
 const port = 3000;
 const prisma = new PrismaClient();
- const options: cors.CorsOptions = {
-   origin: 'http://frontend',
- };
-app.use((cors as (options: cors.CorsOptions) => express.RequestHandler)({}));
 app.use(express.json());
 
 app.post(`/signup`, async (req, res) => {
-  const { email, password } = req.body;
-
+  const { name, email, password } = req.body;
+  console.log(req);
   try {
-    console.log('POSTED!')
-    // const result = await prisma.user.create({
-    //   data: {
-    //     Name: email, // You can use the email as the Name if needed
-    //     Email: email,
-    //     Password: password,
-    //     // Add any other default values or associations here
-    //   },
-    // });
-    const result = true;
+    const result = await prisma.user.create({
+      data: {
+        Name: name,
+        Email: email,
+        Password: password,
+      },
+    });
     res.json(result);
   } catch (error) {
     console.error(error);
