@@ -11,14 +11,17 @@ const prisma = new PrismaClient();
 app.use(express.json());
 
 app.post(`/signup`, async (req, res) => {
-  const { name, email, password } = req.body;
-  console.log(req);
+  const { username, email, password } = req.body;
+  console.log(username, email, password);
+
   try {
+
     const result = await prisma.user.create({
       data: {
-        Name: name,
-        Email: email,
-        Password: password,
+        firstName: "john",
+        lastName: "adams",
+        email: email,
+        password: password,
       },
     });
     res.json(result);
