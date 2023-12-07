@@ -23,6 +23,7 @@ interface SongDetails {
   album: string;
 }
 
+
 export const NewReview: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [review, setReview] = useState<string>('');

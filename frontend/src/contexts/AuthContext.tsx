@@ -1,79 +1,43 @@
-import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { saveToken, removeToken, Token } from '../helpers/localStorage';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type AuthContextProps = {
-  token?: Token,
-  signIn: (token: Token) => void,
-  signOut: () => void
+interface AuthContextType {
+  isAuthenticated: boolean;
+  userId: string | null;
+  login: (userId: string) => void;
+  logout: () => void;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<Token | undefined>(undefined);
-  const navigate = useNavigate();
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-  const signIn = async (token: Token) => {
-    setToken(token);
-    saveToken(token);
-  }
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  
-  const signOut = () => {
-    setToken(undefined);
-    removeToken();
-    navigate('/login');
-  }
+  const login = (newUserId: string) => {
+    setIsAuthenticated(true);
+    setUserId(newUserId);
+  };
 
-  const everyTenMinutes = (callback: () => void): NodeJS.Timer => {
-    const TEN_MINUTES_IN_MILLISECONDS = 1000 * 60 * 10;
-    return setInterval(callback, TEN_MINUTES_IN_MILLISECONDS);
-  }
-
-  const { refreshToken } = token || {};
-
-  useEffect(() => {
-  if (!refreshToken?.value) {
-    return;
-  }
-
-  everyTenMinutes(async () => {
-    try {
-      const response = await axios.post('/api/refreshToken', {
-        refreshToken: refreshToken.value
-      });
-
-      if (response.data.accessToken && token) {
-        signIn({
-          ...token,
-          accessToken: response.data.accessToken
-        });
-      }
-    } catch (error) {
-      signOut();
-    }
-  });
-
-  //TODO: id was used here....
-  return () => clearInterval(0);
-}, [token?.refreshToken]);
-
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUserId(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ token, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuth must be within AuthProvider');
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-
   return context;
-}
+};

@@ -6,6 +6,7 @@ import {
     useToast,
     FormLabel,
     FormControl,
+    Center
   } from '@chakra-ui/react';
   import { useState } from 'react';
   import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -115,6 +116,7 @@ import {
     };
   
     return (
+      <Center>
       <Stack
         w={['100%', '30em']}
         p={['1em']}
@@ -190,6 +192,7 @@ import {
           <RouterLink to="/login">Login here</RouterLink>
         </Text>
       </Stack>
+      </Center>
     );
   };
   

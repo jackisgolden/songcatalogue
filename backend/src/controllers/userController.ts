@@ -21,7 +21,7 @@ export const getPlaylists = async (req: Request, res: Response) => {
 export const createPlaylist = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
-    const userId = req.user.id; // Assuming you have user authentication middleware
+    const userId = req.body // Assuming you have user authentication middleware
     const playlist = await prisma.playlist.create({
       data: { name, userId },
     });

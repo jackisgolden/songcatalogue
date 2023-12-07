@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { VStack, Button, Divider, Box } from '@chakra-ui/react';
-import { NewReview } from '../../pages/NewReview/NewReview';
+import { VStack, Divider, Box } from '@chakra-ui/react';
+import { NewReview } from '../../components/NewReview/NewReview';
 import { MakePlaylist } from '../../components/MakePlaylist/MakePlaylist';
 import { Link } from 'react-router-dom';
 import { Search } from '../Search/Search'

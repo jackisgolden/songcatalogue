@@ -2,11 +2,8 @@ import {
   Box,
   Image,
   Text,
-  Flex,
   VStack,
-  HStack,
-  Grid,
-  GridItem
+  HStack
 } from '@chakra-ui/react';
 import PlaylistGrid from '../../components/PlaylistGrid/PlayListGrid';
 import {Feed} from '../../components/Feed/Feed'

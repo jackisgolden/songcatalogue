@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -14,6 +14,11 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
+import axios from 'axios'; // Import axios for making HTTP requests
+
+// You might want to create a context or store to manage user authentication and store the user ID
+// This is just a placeholder for the user ID.
+const UserContext = React.createContext<{ userId: string | null }>({ userId: null });
 
 interface PlaylistDetails {
   name: string;
@@ -23,15 +28,34 @@ interface PlaylistDetails {
 export const MakePlaylist: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [playlistDetails, setPlaylistDetails] = useState<PlaylistDetails>({ name: '', description: '' });
+  const { userId } = useContext(UserContext); // Get the user ID from your context or state
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setPlaylistDetails({ ...playlistDetails, [e.target.name]: e.target.value });
   };
 
   const submitPlaylist = () => {
-    // Submit playlist logic
-    console.log(playlistDetails);
-    onClose();
+    if (userId) {
+      // Send a POST request to create a playlist with the user ID
+      axios.post('/api/playlists', { userId, ...playlistDetails })
+        .then(response => {
+          if (response.data.success) {
+            // Handle successful playlist creation
+            console.log(`Playlist created with ID: ${response.data.playlistId}`);
+            onClose();
+          } else {
+            // Handle playlist creation failure
+            console.error('Playlist creation failed');
+          }
+        })
+        .catch(error => {
+          // Handle API request errors
+          console.error('API request failed', error);
+        });
+    } else {
+      // Handle the case where the user is not authenticated
+      console.error('User is not authenticated');
+    }
   };
 
   return (
@@ -66,4 +90,3 @@ export const MakePlaylist: React.FC = () => {
     </>
   );
 };
-
