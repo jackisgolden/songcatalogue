@@ -36,12 +36,12 @@ export const MakePlaylist: React.FC = () => {
 
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen}>Create New Playlist</Button>
+      <Button colorScheme="teal" variant="outline" onClick={onOpen}>🎵  New Playlist</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create a New Playlist</ModalHeader>
+          <ModalHeader>🎵 New Playlist</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>

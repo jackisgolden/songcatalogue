@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
-import { VStack, Input } from '@chakra-ui/react';
-import { NewReview } from '../../pages/NewReview/NewReview'
-import { MakePlaylist } from '../../components/MakePlaylist/MakePlaylist'
-//import { SearchBar } from '../../components/SearchBar/SearchBar'
-
+import { VStack, Button, Divider, Box } from '@chakra-ui/react';
+import { NewReview } from '../../pages/NewReview/NewReview';
+import { MakePlaylist } from '../../components/MakePlaylist/MakePlaylist';
+import { Link } from 'react-router-dom';
+import { Search } from '../Search/Search'
 
 interface Playlist {
   id: number;
   name: string;
-  // Add other properties of your playlist here
 }
 
 export const LeftCol: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const dummyPlaylists = [
+    { id: 1, name: 'Chill Vibes' },
+    { id: 2, name: 'Workout Mix' },
+    { id: 3, name: 'Study Tunes' },
+  ];
+  const [playlists, setPlaylists] = useState<Playlist[]>(dummyPlaylists);
 
   useEffect(() => {
     fetch('/api/users/:user/playlists')
@@ -28,16 +31,18 @@ export const LeftCol: React.FC = () => {
 
   return (
     <VStack w="100%" spacing={4} align="stretch">
-      <Input
-        placeholder="Search"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <NewReview />
-      <MakePlaylist />
+      <Search/>
+      <Divider />
+      <Box boxShadow="md" p="4" borderRadius="md" bg="gray.50">
+        <NewReview />
+        <MakePlaylist />
+      </Box>
       {playlists.map((playlist: Playlist) => (
-        <div key={playlist.id}>{playlist.name}</div>
-        // You can replace "div" with a custom playlist component if needed
+        <Box boxShadow="md" p="4" borderRadius="md" bg="purple.50" my="2" key={playlist.id}>
+          <Link to={`/playlist/${playlist.id}`}>
+            <div>{playlist.name}</div>
+          </Link>
+        </Box>
       ))}
     </VStack>
   );

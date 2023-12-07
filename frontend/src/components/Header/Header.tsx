@@ -2,15 +2,13 @@ import {
     Flex,
     Text,
     Button,
-    useDisclosure,
-    Avatar
+    Avatar,
   } from '@chakra-ui/react'
   import { useNavigate } from 'react-router-dom'
-  import { HeaderDrawer } from '../HeaderDrawer/HeaderDrawer'
+  import { Link } from 'react-router-dom'
   
   export const Header = () => {
     const navigate = useNavigate()
-    const { isOpen, onOpen, onClose } = useDisclosure()
   
     return (
       <Flex
@@ -36,17 +34,14 @@ import {
             </Text>
           </Button>
   
+          <Link to="/user/:userid">
           <Avatar
             as='button'
             size='sm'
             cursor={'pointer'}
-            onClick={onOpen}
           />
+        </Link>
   
-          <HeaderDrawer
-            isOpen={isOpen}
-            onClose={onClose}
-          />
         </Flex>
       </Flex>
     )

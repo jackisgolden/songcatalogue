@@ -43,12 +43,12 @@ export const NewReview: React.FC = () => {
 
   return (
     <>
-      <Button onClick={onOpen}>Write a Review</Button>
+      <Button colorScheme="teal" variant="outline" onClick={onOpen}>✍️ Write a Review</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Write a Review</ModalHeader>
+          <ModalHeader>✍️ Write a Review</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
