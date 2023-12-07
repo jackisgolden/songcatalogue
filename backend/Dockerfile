@@ -22,7 +22,9 @@ RUN npm run build
 RUN npm install -g prisma
 
 # Install Prisma Client and generate the client code
-RUN prisma generate
+RUN npx prisma generate
+
+RUN npx prisma migrate deploy
 
 # Expose the port your Express app is listening on (e.g., 3000)
 EXPOSE 3000

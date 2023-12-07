@@ -19,14 +19,18 @@ services:
     # Remove ports to not expose directly
 
   database:
-    image: mariadb:latest
-    container_name: mariadb-container
+    image: postgres:latest
+    container_name: psql-container
+    environment:
+      POSTGRES_DB: groovy
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     env_file:
       - .env
     ports:
-      - "3306:3306"
-    volumes:
-      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - "5432:5432"
+    #volumes:
+    #  - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   backend:
     build:

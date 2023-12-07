@@ -1,4 +1,4 @@
-# songcatalogue
+# Groovy
 
 A webapp for viewing and rating songs - can follow friends + get recomendations.
 
@@ -24,16 +24,28 @@ Supports:
 
  - `docs`: contains all deliverables
  - `db`: contains database code
- - `
+ - `frontend`: Vite + TypeScript + React
+ - `backend`: Express + Node + 
+ -
 
-## Usage
+## Development Tips
 
 Build and start docker images
 ```sh
-sudo docker-compose up --build
+docker-compose up --build
 ```
 
 Tear down images
 ```sh
-sudo docker-compose down
+docker-compose down
+```
+
+Connect to the `psql-container` inside a shell
+```sh
+docker exec -it psql-container /bin/bash
+```
+
+Once inside the shell, connect to database:
+```sh
+psql postgresql://user:password@localhost:5432/groovy
 ```
