@@ -1,5 +1,15 @@
 # Backend
 
+## Stack
+### Nodejs
+Backend
+
+### Express
+Routes and serves API requests
+
+### Prisma
+This ORM allows us to have type safety when querying the database.
+
 ## API
 
 ### Account Creation
