@@ -1,53 +1,67 @@
 import express, { Request, Response } from "express";
-import mariadb, { Connection, Pool } from "mariadb";
-import session from 'express-session';
-import bcrypt from "bcrypt";
 import { PrismaClient } from '@prisma/client';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+const jwtSecretKey = 'your-secret-key';
 
 const app = express();
 const port = 3000;
 const prisma = new PrismaClient();
+const saltRounds = 10;  // Adjust this number based on your security requirements
+
 app.use(express.json());
 
-app.post(`/signup`, async (req, res) => {
-  const { username, email, password } = req.body;
-  console.log(username, email, password);
-
+// Signup Endpoint
+app.post('/signup', async (req, res) => {
+  const { email, password } = req.body;
+  
   try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const result = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
-        firstName: "john",
-        lastName: "adams",
+        firstName: "John",
+        lastName: "Adams",
         email: email,
-        password: password,
+        password: hashedPassword,
       },
     });
-    res.json(result);
+
+    res.json(newUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while creating the user.' });
   }
 });
 
+// Login Endpoint
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    if(user) {
+      console.log(password, user.password);
+    }
+    if (user && await bcrypt.compare(password, user.password)) {
+      const token = jwt.sign(
+        { userId: user.id }, 
+        'HEY',
+        { expiresIn: '24h' }
+      );
+      res.json({ token });
+    } else {
+      res.status(401).json({ error: 'Invalid email or password' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred during login.' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-// OLD CODE
-// import {
-//   MYSQL_HOST,
-//   MYSQL_PORT,
-//   MYSQL_USER,
-//   MYSQL_PASSWORD,
-//   MYSQL_DATABASE,
-// } from "./config";
-
-// const pool: Pool = mariadb.createPool({
-//   host: MYSQL_HOST,
-//   port: parseInt(MYSQL_PORT || "3306"),
-//   user: MYSQL_USER,
-//   password: MYSQL_PASSWORD,
-//   database: MYSQL_DATABASE,
-// });

@@ -29,8 +29,8 @@ services:
       - .env
     ports:
       - "5432:5432"
-    #volumes:
-    #  - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./backend/prisma/migrations/20231206125317_init/migration.sql:/docker-entrypoint-initdb.d/init.sql
 
   backend:
     build:
